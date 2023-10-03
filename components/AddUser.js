@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Modal,
   Button,
+  Text,
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { useState } from "react";
@@ -15,20 +16,46 @@ export default function AddUser({ setUsers, users }) {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
 
   const addUser = () => {
-    const userObj = {
-      first_name: firstname,
-      last_name: lastname,
-      email: email,
-      id: uuid.v4(),
-    };
+    const identityCheck = users.filter((user) => {
+      if (user.email == email) {
+        return user;
+      }
+    });
 
-    setUsers([...users, userObj]);
-    setModalVisible(false);
-    setFirstname("");
-    setLastname("");
-    setEmail("");
+    if (identityCheck.length > 0) {
+      setAlertMessage({
+        text: "User already exists!",
+        color: "red",
+        value: true,
+      });
+      setTimeout(() => {
+        setAlertMessage("");
+      }, 2000);
+    } else {
+      const userObj = {
+        first_name: firstname,
+        last_name: lastname,
+        email: email,
+        id: uuid.v4(),
+      };
+
+      setUsers([...users, userObj]);
+      setFirstname("");
+      setLastname("");
+      setEmail("");
+      setAlertMessage({
+        text: "Added successfully!",
+        color: "green",
+        value: true,
+      });
+      setTimeout(() => {
+        setAlertMessage("");
+        setModalVisible(false);
+      }, 2000);
+    }
   };
 
   return (
@@ -81,6 +108,16 @@ export default function AddUser({ setUsers, users }) {
                 setEmail("");
               }}
             />
+            <Text
+              style={{
+                display: alertMessage.value ? "block" : "none",
+                fontSize: 16,
+                fontWeight: "bold",
+                color: alertMessage.color,
+              }}
+            >
+              {alertMessage.text}
+            </Text>
           </View>
         </View>
       </Modal>

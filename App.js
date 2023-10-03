@@ -1,21 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import AllUsersPage from './components/AllUsersPage';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import AllUsersPage from "./components/AllUsersPage";
+import UserPage from "./components/UserPage";
+import { pages } from "./lib/pages";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <AllUsersPage />
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerBackVisible: false,
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen
+          name={pages.usersP}
+          component={AllUsersPage}
+          options={{ title: pages.usersP }}
+        />
+        <Stack.Screen
+          name={pages.userP}
+          component={UserPage}
+          options={{ title: pages.userP }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

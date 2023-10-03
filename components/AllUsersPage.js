@@ -1,11 +1,13 @@
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import SearchUser from "./SearchUser";
 import UsersCards from "./UsersCards";
 import AddUser from "./AddUser";
+import { useNavigation } from "@react-navigation/native";
 
-export default function AllUsersPage() {
+export default function AllUsersPage({ navigation }) {
   const [users, setUsers] = useState([]);
+  const [usersFound, setUsersFound] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -19,8 +21,12 @@ export default function AllUsersPage() {
 
   return (
     <View style={styles.container}>
-      <SearchUser users={users} setUsers={setUsers} />
-      <UsersCards users={users} setUsers={setUsers} />
+      <SearchUser
+        users={users}
+        setUsers={setUsers}
+        setUsersFound={setUsersFound}
+      />
+      <UsersCards users={usersFound ? usersFound : users} setUsers={setUsers} />
       <AddUser users={users} setUsers={setUsers} />
     </View>
   );
