@@ -11,7 +11,7 @@ import Svg, { Path } from "react-native-svg";
 import { useState } from "react";
 import uuid from "react-native-uuid";
 
-export default function AddUser({ setUsers, users }) {
+export default function AddUser({ setUsers, users, setUsersFound }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -43,6 +43,7 @@ export default function AddUser({ setUsers, users }) {
       };
 
       setUsers([...users, userObj]);
+      setUsersFound([...users, userObj]);
       setFirstname("");
       setLastname("");
       setEmail("");
@@ -108,16 +109,17 @@ export default function AddUser({ setUsers, users }) {
                 setEmail("");
               }}
             />
-            <Text
-              style={{
-                display: alertMessage.value ? "block" : "none",
-                fontSize: 16,
-                fontWeight: "bold",
-                color: alertMessage.color,
-              }}
-            >
-              {alertMessage.text}
-            </Text>
+            <View style={{ display: alertMessage.value ? "block" : "none" }}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: "bold",
+                  color: alertMessage.color,
+                }}
+              >
+                {alertMessage.text}
+              </Text>
+            </View>
           </View>
         </View>
       </Modal>

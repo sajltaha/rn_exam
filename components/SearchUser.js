@@ -24,7 +24,7 @@ export default function SearchUser({ users, setUsersFound }) {
         onChangeText={(text) => setUsername(text)}
       />
       <Button title="Search" disabled={!username} onPress={searchUser} />
-      <Button title="All users" onPress={() => setUsersFound(null)} />
+      <Button title="All users" onPress={() => setUsersFound(users)} />
     </View>
   );
 }

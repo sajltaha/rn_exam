@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import SearchUser from "./SearchUser";
 import UsersCards from "./UsersCards";
 import AddUser from "./AddUser";
-import { useNavigation } from "@react-navigation/native";
 
-export default function AllUsersPage({ navigation }) {
+export default function AllUsersPage() {
   const [users, setUsers] = useState([]);
   const [usersFound, setUsersFound] = useState(null);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -15,9 +15,13 @@ export default function AllUsersPage({ navigation }) {
       const data = await res.json();
       if (data) {
         setUsers(data.data);
+        setUsersFound(data.data);
       }
+      setLoaded(true);
     })();
   }, []);
+
+  if (!loaded) return null;
 
   return (
     <View style={styles.container}>
@@ -26,8 +30,17 @@ export default function AllUsersPage({ navigation }) {
         setUsers={setUsers}
         setUsersFound={setUsersFound}
       />
-      <UsersCards users={usersFound ? usersFound : users} setUsers={setUsers} />
-      <AddUser users={users} setUsers={setUsers} />
+      <UsersCards
+        setUsersFound={setUsersFound}
+        usersFound={usersFound}
+        users={users}
+        setUsers={setUsers}
+      />
+      <AddUser
+        users={users}
+        setUsers={setUsers}
+        setUsersFound={setUsersFound}
+      />
     </View>
   );
 }
