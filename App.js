@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AllUsersPage from "./components/AllUsersPage";
 import UserPage from "./components/UserPage";
 import { pages } from "./lib/pages";
+import SignInPage from "./components/SignInPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -15,6 +16,11 @@ export default function App() {
           headerShown: false,
         }}
       >
+        <Stack.Screen
+          name={pages.signInP}
+          component={SignInPage}
+          options={{ title: pages.signInP }}
+        />
         <Stack.Screen
           name={pages.usersP}
           component={AllUsersPage}
